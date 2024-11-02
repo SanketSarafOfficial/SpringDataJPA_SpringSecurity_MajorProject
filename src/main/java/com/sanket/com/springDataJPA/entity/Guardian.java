@@ -15,15 +15,28 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @AttributeOverrides({
-        @AttributeOverride(name = "name",
-                column = @Column(name = "guardian_name")),
+        @AttributeOverride(name = "name",// my specified name
+                column = @Column(name = "guardian_name")),// database table name
+
         @AttributeOverride(name = "email",
                 column = @Column(name = "guardian_email")),
+
         @AttributeOverride(name = "mobile",
                 column = @Column(name = "guardian_mobile"))
 })
 public class Guardian {
-    private String name;
+    private String name;  // my specified name
     private String email;
     private String mobile;
 }
+
+
+// @AttributeOverride format
+
+//@AttributeOverrides({
+//        @AttributeOverride(name = "",
+//        column = @Column(name = "")),
+//        ...................
+//
+//
+//})

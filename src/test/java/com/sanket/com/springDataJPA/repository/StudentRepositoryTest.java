@@ -8,10 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /*
- * Generally to test JPA Repository or database layer , we use @DataJpaTest , since it flushes the data after table and data creation
+ * Generally to test JPA Repository or database layer , we use @DataJpaTest , since it flushes the data after table and data creation (Since we use test entity manager)
  * @SpringBootTest will not flush any data, and we can test using this annotation to check the database data creation
  *
  * */
