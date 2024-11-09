@@ -53,7 +53,7 @@ class StudentRepositoryTest {
         Student student = Student.builder()
                 .firstName("Ganesh")
                 .lastName("Lambodara")
-                .emailId("Ganesh@gamil.com")
+                .emailId("Ganesh@gmail.com")
                 .guardian(guardian)
                 .build();
 
@@ -82,6 +82,45 @@ class StudentRepositoryTest {
     public void findByLastNameNotNull(){
         List<Student> studentInfo = studentRepository.findByLastNameNotNull();
         System.out.println(studentInfo);
+    }
+
+    @Test
+    public void findStudentByEmailAddress(){
+        Student s = studentRepository.getStudentByEmailAddress("Ganesh@gmail.com");
+        System.out.println(s);
+    }
+
+    @Test
+    public void findStudentFirstNameByEmailAddress(){
+        String str = studentRepository.findStudentFirstNameByEmailAddress("sanket@gmail.com");
+        System.out.println(str);
+    }
+
+    // Native SQL Queries Test
+
+    @Test
+    public void findStudentInfoByEmailAddressNative(){
+        Student s = studentRepository.findStudentByEmailAddressNative("Ganesh@gmail.com");
+        System.out.println(s);
+    }
+
+    @Test
+    public void findStudentFirstNameAndLastNameByEmailAddressNative(){
+        String s = studentRepository.findStudentFirstNameAndLastNameByEmailAddress("Ganesh@gmail.com");
+        System.out.println(s);
+    }
+
+    @Test
+    public void findStudentInfoByEmailAddressNamedParam(){
+        String s = studentRepository.findStudentByEmailAddressNamedParam("Ganesh@gmail.com");
+        System.out.println(s);
+    }
+
+    @Test
+    public void updateStudentFirstNameByEmailAddress(){
+        int  s = studentRepository.updateStudentFirstNameByEmailId("Ganapati","Ganesh@gmail.com");
+        System.out.println(s);
+        System.out.println(studentRepository.findStudentFirstNameByEmailAddress("Ganesh@gmail.com"));
     }
 
 }
