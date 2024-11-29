@@ -2,12 +2,11 @@ package com.sanket.com.springDataJPA.repository;
 
 import com.sanket.com.springDataJPA.entity.Course;
 import com.sanket.com.springDataJPA.entity.CourseMaterial;
-import org.hibernate.usertype.CompositeUserType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
 @SpringBootTest
 class CourseMaterialRepositoryTest {
@@ -30,6 +29,12 @@ class CourseMaterialRepositoryTest {
                 .build();
 
         courseMaterialRepository.save(courseMaterial);
+    }
+
+    @Test
+    public void FetchCourseMaterialInfo(){
+        List<CourseMaterial> courseMaterials = courseMaterialRepository.findAll();
+        System.out.println(courseMaterials);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.sanket.com.springDataJPA.repository;
 
+import com.sanket.com.springDataJPA.entity.CourseMaterial;
 import com.sanket.com.springDataJPA.entity.Guardian;
 import com.sanket.com.springDataJPA.entity.Student;
 import org.junit.jupiter.api.Test;
@@ -122,5 +123,6 @@ class StudentRepositoryTest {
         System.out.println(s);
         System.out.println(studentRepository.findStudentFirstNameByEmailAddress("Ganesh@gmail.com"));
     }
+
 
 }
