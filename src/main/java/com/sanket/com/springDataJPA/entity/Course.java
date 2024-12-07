@@ -2,7 +2,6 @@ package com.sanket.com.springDataJPA.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.engine.internal.Cascade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@ToString(exclude = "students")
 public class Course {
     @Id
     @SequenceGenerator(name = "course_sequence",
@@ -58,6 +58,4 @@ public class Course {
             students = new ArrayList<>();
         students.add(student);
     }
-
-
 }

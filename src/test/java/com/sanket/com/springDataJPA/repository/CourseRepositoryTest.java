@@ -95,6 +95,7 @@ class CourseRepositoryTest {
         System.out.println(courses);
     }
 
+    // Test case to test many-to-many relationship
     @Test
     public void saveCourseWithStudentAndTeacher(){
 
@@ -104,15 +105,23 @@ class CourseRepositoryTest {
                 .mobile("9909909909")
                 .build();
 
-        Student student = Student.builder()
-                .firstName("Rakesh")
+//        Student student = Student.builder()
+//                .firstName("Rakesh")
+//                .lastName("Bhatt")
+//                .guardian(guardian)
+//                .emailId("Rakesh.Bhatt@gmail.com")
+//                .build();
+
+        Student student1 = Student.builder()
+                .firstName("Vighanesh")
                 .lastName("Bhatt")
                 .guardian(guardian)
-                .emailId("Rakesh.Bhatt@gmail.com")
+                .emailId("Vighanesh.Bhatt@gmail.com")
                 .build();
 
         List<Student> studentList = new ArrayList<>();
-        studentList.add(student);
+//        studentList.add(student);
+        studentList.add(student1);
 
         Teacher teacher = Teacher.builder()
                 .firstName("Abhaya Kumar")
