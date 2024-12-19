@@ -1,6 +1,5 @@
 package com.sanket.com.springDataJPA.model;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -13,6 +13,8 @@ public class RegistrationCompleteListener implements ApplicationListener<Registr
     @Autowired
     private UserService userService;
 
+
+    // This is the implemented method present in the ApplicationListener
     @Override
     public void onApplicationEvent(RegistrationCompleteEvent event) {
         // Create verification token for the user with link
@@ -23,9 +25,6 @@ public class RegistrationCompleteListener implements ApplicationListener<Registr
         userService.saveVerificationTokenForUser(token , user);
 
         // once link is created , send mail to user
-
-
-
 
     }
 }
