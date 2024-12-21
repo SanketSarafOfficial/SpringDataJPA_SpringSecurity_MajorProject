@@ -4,6 +4,7 @@ import com.sanket.com.springDataJPA.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
+import org.springframework.stereotype.Component;
 
 @Getter
 @Setter

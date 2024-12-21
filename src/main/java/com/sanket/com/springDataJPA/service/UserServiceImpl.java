@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -43,5 +45,39 @@ public class UserServiceImpl implements UserService{
         VerificationToken verificationToken =
                 new VerificationToken(user , token);
         verificationTokenRepository.save(verificationToken);
+    }
+
+    @Override
+    public String validateVerificationToken(String token) {
+
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+
+        // verify whether data is present in verification token or not
+
+        if(verificationToken == null){
+            return "Invalid !";
+        }
+
+        // checking the time difference , if the expiration time has expired (time is 10 minutes what we have set
+        // ) , then the token will be deleted from the database
+
+        User user = verificationToken.getUser();
+        Calendar cal = Calendar.getInstance();
+
+        if(verificationToken.getExpirationTime().getTime() - cal.getTime().getTime() <= 10){
+            verificationTokenRepository.delete(verificationToken);
+            return "Token Expired !";
+        }
+
+        user.setEnabled(true);
+
+        return "Valid";  // "valid" is hardcoded in the verification in controller
+
+    }
+
+    @Override
+    public void deleteAllUserInfo() {
+        verificationTokenRepository.deleteAll();
+        userRepository.deleteAll();
     }
 }
