@@ -37,7 +37,7 @@ public class RegistrationController {
     @PostMapping("/resendVerifyToken")
     public String resendVerificationToken(@RequestParam("token") String oldToken, HttpServletRequest httpServletRequest) {
 
-        // generation of new token
+        // generation of new token & Saving in DB
         VerificationToken verificationToken = userService.generateNewVerificationToken(oldToken);
 
         //sending user & token details to get mail again
@@ -60,10 +60,10 @@ public class RegistrationController {
         if (user != null) {
             String token = UUID.randomUUID().toString();
 
-            // storing password reset token in DB
+            // Logic part & storing password reset token in DB
             userService.createPasswordResetTokenForUser(user, token);
 
-            // url generation to reset password
+            // url generation that will used to save password
             url = passwordResetTokenMail(user, applicationUrl(request), token);
         }
         return url;
@@ -90,6 +90,25 @@ public class RegistrationController {
         } else {
             return "Invalid Token";
         }
+    }
+
+    @PostMapping("/changePassword")
+    public String changePassword(@RequestBody ResetPasswordModel resetPasswordModel){
+
+        User user = userService.findUserByEmail(resetPasswordModel.getEmail());
+
+        // if the old password given is not correct
+
+        if(!userService.checkIfValidOldPassword(user , resetPasswordModel.getOldPassword())){
+            return "Invalid Old Password";
+        }
+
+        //if old password validation is over without errors , then save New Password
+
+        userService.changePassword(user , resetPasswordModel.getNewPassword());
+
+        return "Password Saved Successfully";
+
     }
 
     private String passwordResetTokenMail(User user, String applicationUrl, String token) {
