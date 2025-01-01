@@ -8,11 +8,13 @@ import com.sanket.com.springDataJPA.model.UserModel;
 import com.sanket.com.springDataJPA.repository.PasswordResetTokenRepository;
 import com.sanket.com.springDataJPA.repository.UserRepository;
 import com.sanket.com.springDataJPA.repository.VerificationTokenRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -110,7 +112,9 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByEmail(email);
     }
 
+
     @Override
+    @Transactional
     public void createPasswordResetTokenForUser(User user, String token) {
 
         // store the password reset token details in the DB
@@ -118,8 +122,14 @@ public class UserServiceImpl implements UserService{
         PasswordResetToken passwordResetToken
                 = new PasswordResetToken(user , token);
 
-        passwordResetTokenRepository.save(passwordResetToken);
+        // checking if Id is equal and deleting the older id if present , because the old id may cause Duplicate error
 
+        if(Objects.equals(passwordResetToken.getUser().getId(), user.getId())){
+            if(passwordResetToken.getToken()!= null){
+                deleteByUserId(passwordResetToken.getUser().getId());
+            }
+            passwordResetTokenRepository.save(passwordResetToken);
+        }
     }
 
     @Override
@@ -161,4 +171,9 @@ public class UserServiceImpl implements UserService{
         return passwordEncoder.matches(oldPassword , user.getPassword());
     }
 
+    @Override
+    @Transactional
+    public void deleteByUserId(Long userId) {
+        passwordResetTokenRepository.deleteUserByUserId(userId);
+    }
 }

@@ -50,6 +50,9 @@ public class RegistrationController {
 
     @PostMapping("/resetPassword")
     public String resetPassword(@RequestBody ResetPasswordModel resetPasswordModel, HttpServletRequest request) {
+        // aim : if email is present , generate token , save info in DB and proceed to change the password in new API
+        // New API --> /savePassword
+
 
         User user = userService.findUserByEmail(resetPasswordModel.getEmail());
 
@@ -63,7 +66,8 @@ public class RegistrationController {
             // Logic part & storing password reset token in DB
             userService.createPasswordResetTokenForUser(user, token);
 
-            // url generation that will used to save password
+            // after creation of new token , we will save the password , hence we will create "/savePassword" API
+
             url = passwordResetTokenMail(user, applicationUrl(request), token);
         }
         return url;
@@ -72,6 +76,7 @@ public class RegistrationController {
     @PostMapping("/savePassword")
     public String savePassword(@RequestParam("token") String token, @RequestBody ResetPasswordModel resetPasswordModel) {
 
+        // checking time difference from DB and calendar instance
         String result = userService.validatePasswordResetToken(token);
 
         if (!result.equalsIgnoreCase("valid")) {
@@ -84,7 +89,7 @@ public class RegistrationController {
 
         if (user.isPresent()) {
 
-            userService.changePassword(user.get() , resetPasswordModel.getNewPassword());
+            userService.changePassword(user.get(), resetPasswordModel.getNewPassword());
 
             return "Password Reset successful";
         } else {
@@ -93,19 +98,19 @@ public class RegistrationController {
     }
 
     @PostMapping("/changePassword")
-    public String changePassword(@RequestBody ResetPasswordModel resetPasswordModel){
+    public String changePassword(@RequestBody ResetPasswordModel resetPasswordModel) {
 
         User user = userService.findUserByEmail(resetPasswordModel.getEmail());
 
-        // if the old password given is not correct
+        // checking if the old password given is not correct
 
-        if(!userService.checkIfValidOldPassword(user , resetPasswordModel.getOldPassword())){
+        if (!userService.checkIfValidOldPassword(user, resetPasswordModel.getOldPassword())) {
             return "Invalid Old Password";
         }
 
-        //if old password validation is over without errors , then save New Password
+        // if old password validation is over without errors , then save the New Password
 
-        userService.changePassword(user , resetPasswordModel.getNewPassword());
+        userService.changePassword(user, resetPasswordModel.getNewPassword());
 
         return "Password Saved Successfully";
 
@@ -150,6 +155,8 @@ public class RegistrationController {
 
 
     private String applicationUrl(HttpServletRequest request) {
+        // This applicationUrl function is helping us to form our Url
+
         return "http://" + request.getServerName()
                 + ":"
                 + request.getServerPort()

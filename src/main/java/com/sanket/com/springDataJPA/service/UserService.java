@@ -30,4 +30,6 @@ public interface UserService {
 
     boolean checkIfValidOldPassword(User user, String oldPassword);
 
+    void deleteByUserId(Long userId);
+
 }
