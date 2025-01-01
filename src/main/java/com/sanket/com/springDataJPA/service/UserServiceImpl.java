@@ -3,7 +3,6 @@ package com.sanket.com.springDataJPA.service;
 import com.sanket.com.springDataJPA.entity.PasswordResetToken;
 import com.sanket.com.springDataJPA.entity.User;
 import com.sanket.com.springDataJPA.entity.VerificationToken;
-import com.sanket.com.springDataJPA.model.ResetPasswordModel;
 import com.sanket.com.springDataJPA.model.UserModel;
 import com.sanket.com.springDataJPA.repository.PasswordResetTokenRepository;
 import com.sanket.com.springDataJPA.repository.UserRepository;
