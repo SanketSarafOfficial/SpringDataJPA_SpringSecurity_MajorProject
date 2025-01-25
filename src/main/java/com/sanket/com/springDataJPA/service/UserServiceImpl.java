@@ -121,7 +121,8 @@ public class UserServiceImpl implements UserService{
         PasswordResetToken passwordResetToken
                 = new PasswordResetToken(user , token);
 
-        // checking if Id is equal and deleting the older id if present , because the old id may cause Duplicate error
+        // checking if Id is equal and deleting the older id if present ,
+        // because the old id may cause Duplicate error
 
         if(Objects.equals(passwordResetToken.getUser().getId(), user.getId())){
             if(passwordResetToken.getToken()!= null){
